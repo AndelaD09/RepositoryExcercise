@@ -1,0 +1,120 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include<math.h>
+
+int num_or_letter(char c)
+{
+    if (c >= '0' && c <= '9')
+        return c - 48; //c-'0'
+    c = toupper(c);
+    if (c >= 'A' && c <= 'F')
+    {
+        return c - 55;//c-'A'
+    }
+}
+
+char num_to_char(int n)
+{
+    if (n >= 0 && n <= 9)
+        return n + 48; //c-'0'
+
+    if (n >= 10 && n <= 15)
+    {
+        return n + 55;//c-'A'
+    }
+}
+
+
+int main()
+{
+    int binary;
+    char dek[10];
+    int rez=0, dec = 0, rez2 = 0;
+    int cnt = 0;
+    int temp = 0;
+    int ostatak = 0;
+
+
+    printf("Unesi binarni broj: ");
+    scanf("%d", &binary);
+    printf("Unesi dekadski broj: ");
+    scanf("%s", &dek);
+   
+  
+
+
+    while (binary)
+    {
+        int ostatak = binary % 10; //1110 -> ostr = 0 & bin = 1110
+        dec = dec + (ostatak * pow(2,cnt)); //dec = 0 + 0n *1 = 0
+        binary = binary / 10; // bin = 111
+        cnt ++;
+        //printf("%d", dec);
+    }
+    
+    cnt = 0;
+    rez = 0;
+    temp = 0;
+   
+    while (dek[cnt])
+    {
+        temp = num_or_letter(dek[cnt]);
+        rez = rez * 16 + temp; // fff rez = 0 * 16 + 15 // rez = 15*16 + 15 //rez = 255*16 + 15 // rez = 4095
+        cnt++;
+    }
+    
+    
+    /*if (binary > rez)
+    {
+        temp = binary;
+        binary = rez;
+        rez = temp;
+    }*/
+
+    rez = dec - rez;
+    
+    char c;
+    char num[10];
+    cnt = 0;
+    int len = 0;
+
+    rez2 = rez;
+    if (rez < 0){
+        rez = rez *(-1);
+    }
+    while (rez)
+    {
+        // a21 12a
+        ostatak = rez % 16;
+        rez = rez/16;
+        c = num_to_char(ostatak);
+        num[cnt] = c;
+        cnt++;
+
+    }
+    if (rez2 < 0)
+    {
+        num[cnt] = '-';
+        cnt++;
+    }
+    num[cnt] = '\0';
+    cnt = 0;
+    
+    while (num[cnt])
+    {
+        cnt++;
+    }
+
+    for (int i = 0; i < cnt / 2; i++)
+    {
+        c = num[i];
+        num[i] = num[cnt - i - 1];
+        num[cnt - i - 1] = c;
+    }
+
+
+    printf("%s", num);
+    
+
+
+}
